@@ -1,0 +1,15 @@
+{
+  "name": "preentregascoder",
+  "version": "1.0.0",
+  "description": "Pre Entregas del curso de Backend de Coderhouse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch src/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
