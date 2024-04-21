@@ -1,60 +1,77 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/products", (req, res) => {
+const ProductManager = require("../ProductManager");
+const productManager = new ProductManager();
 
-    /*
-    La ruta raíz GET / deberá listar todos los productos de la base. (Incluyendo la limitación ?limit del desafío anterior
-    */
-    
+router.get("/products", async (req, res) => {
+
+    try {
+        const products = await productManager.getProducts();
+        let limit = parseInt(req.query.limit);
+        if (limit) {
+            const productsLimit = products.slice(0, limit);
+            res.json(productsLimit);
+        } else {
+            res.json(products);
+        }
+    } catch (error) {
+        res.status(404).json({ message: "Error, productos no encontrados" });
+    }
+
 })
 
-router.get("/products/:pid", (req, res) => {
+router.get("/products/:pid", async (req, res) => {
 
-    /*
-    La ruta GET /:pid deberá traer sólo el producto con el id proporcionado
-    */
-    
+    try {
+        let pid = parseInt(req.params.pid);
+        const productById = await productManager.getProductById(pid);
+        if (productById) {
+            res.json(productById);
+        } else {
+            res.status(404).json({ message: "Producto no encontrado por id" });
+        }
+    } catch (error) {
+        res.status(404).json({ message: "Error, producto no encontrado por id" });
+    }
+
 })
 
-router.post("/products", (req, res) => {
+router.post("/products", async (req, res) => {
 
-    /*
-    deberá agregar un nuevo producto con los campos:
+    try {
+        const result = await productManager.addProduct(req.body);
+        res.status(201).json(result);
+    }
+    catch (error) {
+        res.status(404).json({ message: "Error, no se pudo agregar el producto" });
+    }
 
-    -id: Number/String (A tu elección, el id NO se manda desde body, se autogenera como lo hemos visto desde 
-    los primeros entregables, asegurando que NUNCA se repetirán los ids en el archivo.
-    -title:String,
-    -description:String
-    -code:String
-    -price:Number
-    -status:Boolean
-    -stock:Number
-    -category:String
-    -thumbnails:Array de Strings que contenga las rutas donde están almacenadas las imágenes referentes a dicho producto
-
-    Status es true por defecto.
-    Todos los campos son obligatorios, a excepción de thumbnails
-
-    */
-    
 })
 
-router.put("/products/:pid", (req, res) => {
+router.put("/products/:pid", async (req, res) => {
 
-    /*
-    deberá tomar un producto y actualizarlo por los campos enviados desde body. NUNCA se debe actualizar o 
-    eliminar el id al momento de hacer dicha actualización.
-    */
-    
+    try {
+        let pid = parseInt(req.params.pid);
+        const result = await productManager.updateProduct(pid, req.body);
+        res.status(201).json(result);
+    }
+    catch (error) {
+        res.status(404).json({ message: "Error, no se pudo actualizar el producto" });
+    }
+
 })
 
-router.delete("/products/:pid", (req, res) => {
+router.delete("/products/:pid", async (req, res) => {
 
-    /*
-    deberá eliminar el producto con el pid indicado. 
-    */
-    
+    try {
+        let pid = parseInt(req.params.pid);
+        const result = await productManager.deleteProduct(pid);
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(404).json({ message: "Error, no se pudo eliminar el producto" });
+    }
+
 })
 
 module.exports = router;
