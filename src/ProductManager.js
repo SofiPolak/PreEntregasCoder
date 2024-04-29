@@ -12,10 +12,11 @@ class ProductManager {
     async addProduct(newProduct) {
 
         try {
+            const products = await this.checkProducts();
 
             let { title, description, price, thumbnail, code, stock, category } = newProduct;
 
-            const codeExiste = this.products.find((p) => p.code === code);
+            const codeExiste = products.find((p) => p.code === code);
 
             if (codeExiste) {
                 return "El código ya existe";
@@ -62,7 +63,7 @@ class ProductManager {
     async getProductById(idBuscado) {
 
         try {
-            const products = await this.checkProducts()
+            const products = await this.checkProducts();
             const product = products.find((p) => p.id === idBuscado);
             if (!product) {
                 console.log("No existe un producto con ese Id.");

@@ -11,18 +11,5 @@
         "quantity": 0
       }
     ]
-  },
-  {
-    "id": 2,
-    "cartProducts": [
-      {
-        "id": 3,
-        "quantity": 0
-      },
-      {
-        "id": 4,
-        "quantity": 0
-      }
-    ]
   }
 ]
