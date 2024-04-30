@@ -9,14 +9,14 @@ class CartManager {
             this.path = 'Carts.json'
     }
 
-    async addCart(cartProducts) {
+    async addCart() {
 
         try {
             const cartId = ++CartManager.cartIdCount;
 
             const cart = {
                 id: cartId,
-                cartProducts
+                cartProducts: []
             }
 
             this.carts.push(cart);

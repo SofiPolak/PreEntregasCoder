@@ -23,7 +23,7 @@ router.get("/carts/:cid", async (req, res) => {
 router.post("/carts", async (req, res) => {
 
     try {
-        const result = await cartManager.addCart(req.body);
+        const result = await cartManager.addCart();
         res.status(201).json(result);
     }
     catch (error) {
