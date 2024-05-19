@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Pre Entregas del curso de Backend de Coderhouse",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --watch src/app.js"
@@ -10,6 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "mongoose": "^8.4.0",
+    "mongoose-paginate-v2": "^1.8.1"
   }
 }
