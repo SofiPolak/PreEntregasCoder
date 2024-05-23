@@ -2,9 +2,9 @@ import productModel from "../models/product.model.js";
 
 class ProductManager {
 
-    async addProduct(title, description, price, thumbnail, code, stock, category) {
+    async addProduct(title, description, price, thumbnail, code, stock, available, category) {
         try {
-            let result = await productModel.create({ title, description, price, thumbnail, code, stock, category })
+            let result = await productModel.create({ title, description, price, thumbnail, code, stock, available, category })
             return result;
         } catch (error) {
             console.log(error);
@@ -14,7 +14,7 @@ class ProductManager {
     async getProductById(idBuscado) {
 
         try {
-            let result = await productModel.findOne({_id: idBuscado});
+            let result = await productModel.findOne({ _id: idBuscado });
             return result;
         } catch (error) {
             console.log(error);
@@ -22,22 +22,34 @@ class ProductManager {
 
     }
 
-    async checkProducts(limit1, page1, sort1, query) {
+    async checkProducts(query) {
         try {
+
+            let { limit1, page1, sort1 } = query;
+
             if (!limit1) {
                 limit1 = 10;
             }
             if (!page1) {
                 page1 = 1;
             }
-            
-            if(sort1){
+
+            let sortOptions = {};
+            if (sort1) {
                 let order = parseInt(sort1);
-                let products = await productModel.paginate({}, { limit: limit1, page: page1, sort: {price:order} });
-                return products;
+                sortOptions = { price: order };
             }
-            
-            let products = await productModel.paginate({}, { limit: limit1, page: page1 });
+
+            let filterOptions = {};
+            if (query.category) {
+                filterOptions = {category: query.category};
+            }
+
+            if (query.available) {
+                filterOptions = {available: query.available};
+            }
+
+            let products = await productModel.paginate(filterOptions, { limit: limit1, page: page1, sort: sortOptions });
             return products;
         } catch (error) {
             console.log(error)

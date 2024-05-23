@@ -39,10 +39,10 @@ router.delete('/:cid/products/:pid', async (req, res) => {
     const result = await cartManager.deleteProductCart(cid, pid);
     res.send({ result: "success", payload: result });
 })
-
-/*router.put('/:cid', async (req, res) => {
+/*
+router.put('/:cid', async (req, res) => {
     let cid = req.params.cid;
-    const result = await cartManager.updateCart??(cid);
+    const result = await cartManager.updateProductsCart(cid, req.body);
     res.send({ result: "success", payload: result });
 })*/
 

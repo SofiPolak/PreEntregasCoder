@@ -4,8 +4,7 @@ const productManager = new ProductManager();
 const router = Router();
 
 router.get('/', async (req, res) => {
-    let { limit, page, sort, query } = req.query;
-    const result = await productManager.checkProducts(limit, page, sort, query);
+    const result = await productManager.checkProducts(req.query);
     res.send({ result: "success", payload: result })
 })
 
@@ -16,11 +15,11 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    let { title, description, price, thumbnail, code, stock, category } = req.body
-    if (!title || !description || !price || ! thumbnail || !code || !stock || !category) {
+    let { title, description, price, thumbnail, code, stock, available, category } = req.body
+    if (!title || !description || !price || ! thumbnail || !code || !stock || !available || !category) {
         res.send({ status: "error", error: "Faltan parametros" })
     }
-    const result = await productManager.addProduct(title, description, price, thumbnail, code, stock, category);
+    const result = await productManager.addProduct(title, description, price, thumbnail, code, stock, available, category);
     res.send({ result: "success", payload: result });
 })
 

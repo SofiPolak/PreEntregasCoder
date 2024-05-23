@@ -43,7 +43,7 @@ class CartManager {
             if (productToUpdate.length > 0) {
                 ++productToUpdate[0].quantity;
             } else {
-                cartToUpdate.products.push({ _id: pid, quantity: 1})
+                cartToUpdate.products.push({ product: pid, quantity: 1})
             }
 
             let result = await cartModel.updateOne({ _id: cid }, cartToUpdate)
@@ -106,7 +106,27 @@ class CartManager {
             console.log(error)
         }
     }
+/*
+    async updateProductsCart(cid, products){
+        try {
+            let cart = await cartModel.findOne({ _id: cid });
+            products.forEach(product => {
+                //Ver esto del Id
+                product = products.filter(p => p.id == pid);
+                if (product.length > 0) {
+                    ++product[0].quantity;
+                } else {
+                    cart.products.push({ product: pid, quantity: 1})
+                }
+            });
 
+            let result = await cartModel.updateOne({ _id: cid }, cart)
+            return result;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+*/
 }
 
 export default CartManager;

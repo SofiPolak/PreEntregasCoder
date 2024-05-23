@@ -1,0 +1,35 @@
+<div>
+<h2>Mi carrito tiene el ID</h2>
+<label for="id"> Id</label>
+<input type="text" name="carritoId" id="carritoId">
+</div>
+<h2>Productos</h2>
+{{#if isValid}}
+<div>
+    {{#each docs}}
+    <div>
+        <p>Title: {{this.title}} &nbsp; Description: {{this.description}}</p>
+        <p>Price: {{this.price}} &nbsp; Category: {{this.category}}</p>
+        <button type="submit" id="btn-send" productId="{{this._id}}">Agregar al carrito</button>
+    </div>
+    <br />
+    {{/each}}
+</div>
+<br />
+<div>
+    {{#if hasPrevPage}}
+    <a href={{this.prevLink}}>
+        << Anterior</a>
+            {{/if}}
+            &nbsp;
+            {{this.page}}
+            &nbsp;
+            {{#if hasNextPage}}
+            <a href={{this.nextLink}}>Siguiente >></a>
+            {{/if}}
+</div>
+{{else}}
+<h1>No hay productos para mostrar</h1>
+{{/if}}
+
+<script src="../public/js/products.js"></script>
