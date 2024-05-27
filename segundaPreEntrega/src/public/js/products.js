@@ -1,15 +1,3 @@
-//import cartManager from "../../dao/db/cartManager.js";
-
-/*const btnSend = document.getElementById('btn-send');
-
-btnSend.addEventListener('click', () => {
-    const productId = button.getAttribute('productId');
-    const carritoId = document.getElementById('carritoId').value;
-
-    cartManager.updateCart(carritoId, productId);
-})
-*/
-
 function addToCart() {
     document.querySelectorAll('.agregar-carrito').forEach(button => {
         button.addEventListener('click', async (event) => {
@@ -25,7 +13,6 @@ function addToCart() {
                         'Content-Type': 'application/json'
                     },
                 });
-                const data = await response.json();
 
             } catch (error) {
                 console.log(error);
@@ -33,3 +20,6 @@ function addToCart() {
         });
     });
 }
+
+
+addToCart();
