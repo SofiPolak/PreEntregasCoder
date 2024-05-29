@@ -25,18 +25,18 @@ class ProductManager {
     async checkProducts(query) {
         try {
 
-            let { limit1, page1, sort1 } = query;
+            let { limit, page, sort } = query;
 
-            if (!limit1) {
-                limit1 = 10;
+            if (!limit) {
+                limit = 10;
             }
-            if (!page1) {
-                page1 = 1;
+            if (!page) {
+                page = 1;
             }
 
             let sortOptions = {};
-            if (sort1) {
-                let order = parseInt(sort1);
+            if (sort) {
+                let order = parseInt(sort);
                 sortOptions = { price: order };
             }
 
@@ -49,7 +49,7 @@ class ProductManager {
                 filterOptions = {available: query.available};
             }
 
-            let products = await productModel.paginate(filterOptions, { limit: limit1, page: page1, sort: sortOptions });
+            let products = await productModel.paginate(filterOptions, { limit: limit, page: page, sort: sortOptions });
             return products;
         } catch (error) {
             console.log(error)

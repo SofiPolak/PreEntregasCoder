@@ -38,7 +38,7 @@ class CartManager {
 
             let cartToUpdate = await cartModel.findOne({ _id: cid });
             let products = cartToUpdate.products;
-            let productToUpdate = products.filter(p => p.id == pid);
+            let productToUpdate = products.filter(p => p.product == pid);
 
             if (productToUpdate.length > 0) {
                 ++productToUpdate[0].quantity;
@@ -83,8 +83,7 @@ class CartManager {
 
             let cartToUpdate = await cartModel.findOne({ _id: cid });
             let products = cartToUpdate.products;
-            let productToUpdate = products.filter(p => p.id == pid);
-
+            let productToUpdate = products.filter(p => p.product == pid);
             if (productToUpdate.length > 0) {
                 productToUpdate[0].quantity = prodQuantity;
             } 
