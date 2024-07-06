@@ -1,0 +1,54 @@
+<section style="display: flex;">
+    <section style="width: 50%;">
+        <h1>Chat</h1>
+        <div>
+            <ol id="messages">
+
+            </ol>
+        </div>
+    </section>
+    <section style="max-width: 0%;">
+        <div>
+            <h1>Nuevo mensaje</h1>
+
+            {{!-- <label for="user"> Usuario</label>
+            <input type="text" name="user" id="user"> --}}
+            <label for="message"> Mensaje</label>
+            <input type="text" name="message" id="message">
+            <button type="submit" id="btn-send">Enviar</button>
+
+        </div>
+    </section>
+</section>
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+{{!--
+<script src="../public/js/messages.js"></script> --}}
+<script>
+    socket = io()
+
+    const listMessages = document.getElementById('messages')
+
+    const btnSend = document.getElementById('btn-send')
+
+    btnSend.addEventListener('click', () => {
+        //const user = document.getElementById('user').value;
+        //const user = req.session.user.first_name
+        //const user = session.user.first_name
+        const user = 'Carlos' //temporal
+        const message = document.getElementById('message').value;
+        socket.emit('addMessage', { user, message });
+
+    })
+
+    socket.on('messages', messages => {
+        listMessages.innerHTML = ``;
+        messages.forEach(message => {
+            const newMessage = document.createElement('li');
+            newMessage.innerHTML = `<strong>Usuario: </strong>${message.user}, <strong>Mensaje: </strong>${message.message}`;
+            listMessages.appendChild(newMessage);
+        });
+    })
+</script>

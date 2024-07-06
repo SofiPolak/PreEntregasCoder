@@ -1,5 +1,6 @@
 import { Router } from "express";
 import cartController from "../../controllers/carts.controller.js";
+import { isUser } from '../../middlewares/auth.js';
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -18,12 +19,12 @@ router.post('/', async (req, res) => {
     res.send({ result: "success", payload: result });
 })
 
-router.post("/:cid/products/:pid", async (req, res) => {
-        let cid = req.params.cid;
-        let pid = req.params.pid;
-        const result = await cartController.updateCart(cid,pid);
-        res.send({ result: "success", payload: result });
-    
+router.post("/:cid/products/:pid", /*isUser,*/ async (req, res) => {
+    let cid = req.params.cid;
+    let pid = req.params.pid;
+    const result = await cartController.updateCart(cid, pid);
+    res.send({ result: "success", payload: result });
+
 })
 
 router.delete('/:cid/products/:pid', async (req, res) => {
@@ -44,6 +45,12 @@ router.put('/:cid/products/:pid', async (req, res) => {
 router.delete('/:cid', async (req, res) => {
     let cid = req.params.cid;
     const result = await cartController.deleteProductsCart(cid);
+    res.send({ result: "success", payload: result });
+})
+
+router.put('/:cid/purchase', async (req, res) => {
+    let cid = req.params.cid;
+    const result = await cartController.finishPurchase(cid);
     res.send({ result: "success", payload: result });
 })
 
