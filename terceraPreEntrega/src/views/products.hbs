@@ -1,0 +1,40 @@
+<div>
+    <h2>Hola, {{user.first_name}} {{user.last_name}}, tu rol es {{user.role}}</h2>
+</div>
+<div>
+<h3>Mi carrito tiene el ID</h3>
+<label for="id"> Id</label>
+<input type="text" name="carritoId" id="carritoId">
+</div>
+<h2>Productos</h2>
+{{#if result.isValid}}
+<div>
+    {{#each result.docs}}
+    <div>
+        <p>Title: {{this.title}} &nbsp; Description: {{this.description}}</p>
+        <p>Price: {{this.price}} &nbsp; Category: {{this.category}}</p>
+        <button type="submit" id="btn-send" productId="{{this._id}}">Agregar al carrito</button>
+    </div>
+    <br />
+    {{/each}}
+</div>
+<br />
+<div>
+    {{#if result.hasPrevPage}}
+    <a href={{result.prevLink}}>
+        << Anterior</a>
+            {{/if}}
+            &nbsp;
+            {{result.page}}
+            &nbsp;
+            {{#if result.hasNextPage}}
+            <a href={{result.nextLink}}>Siguiente >></a>
+            {{/if}}
+</div>
+{{else}}
+<h2>No hay productos para mostrar</h2>
+{{/if}}
+<form action="/api/sessions/logout" method="POST">
+    <button type="submit">Cerrar Sesión</button>
+</form>
+<script src="../public/js/products.js"></script>
