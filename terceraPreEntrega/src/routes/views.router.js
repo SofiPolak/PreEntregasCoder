@@ -36,7 +36,7 @@ router.get('/register', isNotAuthenticated, (req, res) => {
     res.render('register');
 });
 
-router.get('/current', isAuthenticated, (req, res) => {
+router.get('/current', isAuthenticated, async (req, res) => {
     let { first_name, last_name, age } = req.session.user;
     let user = new UserDTO({ first_name, last_name, age });
     res.render('profile', { user: user });

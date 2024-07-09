@@ -1,11 +1,17 @@
-/*import mongoose from "mongoose";
+import mongoose from "mongoose";
 import config from '../config/config.js'
+import path from 'path';
+import __dirname from '../utils.js';
 import dotenv from 'dotenv'
-dotenv.config()
+
+const envPath = path.resolve(__dirname, 'src', '.env');
+dotenv.config({ path: envPath });
 
 console.log(config)
 
-export let Contacts
+export let Products
+export let Carts
+export let Users
 switch (config.persistence) {
     case "MONGO":
         const connection = mongoose.connect(process.env.MONGODB);
@@ -17,9 +23,11 @@ switch (config.persistence) {
         const { default: ProductsMongo } = await import('./db/productManager.js')
         Products = ProductsMongo
         const { default: CartsMongo } = await import('./db/cartManager.js')
-        Products = CartsMongo
+        Carts = CartsMongo
+        const { default: UsersMongo } = await import('./db/userManager.js')
+        Users = UsersMongo
         break;
 
     default:
 
-}*/
+}
