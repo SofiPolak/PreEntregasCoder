@@ -22,22 +22,15 @@ export const isNotAuthenticated = (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-    console.log(req.session.user)
-    if (!req.session.user) {
-        if (req.session.user.email == process.env.ADMIN_EMAIL) {
-            return next();
-        }
-    } else {
-        res.redirect('/profile');
+    if (req.session?.user?.role !== "admin" || !req.session?.user) {
+        return res.status(403).json({ message: "No puede acceder a esta ruta." })
     }
+    return next();
 };
 
 export const isUser = (req, res, next) => {
-    if (!req.session.user) {
-        if (req.session.user.email != process.env.ADMIN_EMAIL) {
-            return next();
-        }
-    } else {
-        res.redirect('/profile');
+    if (req.session?.user?.role !== "user" || !req.session?.user) {
+        return res.status(403).json({ message: "No puede acceder a esta ruta." })
     }
+    return next();
 };

@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     res.send({ result: "success", payload: result });
 })
 
-router.post("/:cid/products/:pid", /*isUser,*/ async (req, res) => {
+router.post("/:cid/products/:pid", isUser, async (req, res) => {
     let cid = req.params.cid;
     let pid = req.params.pid;
     const result = await cartController.updateCart(cid, pid);

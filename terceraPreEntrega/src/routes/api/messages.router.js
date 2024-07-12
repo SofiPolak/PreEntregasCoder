@@ -1,8 +1,9 @@
 import { Router } from 'express';
+import { isUser } from '../../middlewares/auth.js';
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', isUser, (req, res) => {
     res.render('chat', {})
 })
 

@@ -14,7 +14,7 @@ router.get('/:pid', async (req, res) => {
     res.send({ result: "success", payload: result })
 })
 
-router.post('/', /*isAdmin,*/ async (req, res) => {
+router.post('/', isAdmin, async (req, res) => {
     console.log(req.session.user)
     console.log(req.user)
     let { title, description, price, thumbnail, code, stock, available, category } = req.body
@@ -25,7 +25,7 @@ router.post('/', /*isAdmin,*/ async (req, res) => {
     res.send({ result: "success", payload: result });
 })
 
-router.put('/:pid', async (req, res) => {
+router.put('/:pid', isAdmin, async (req, res) => {
     let { pid } = req.params
     let productToReplace = req.body
     if (!productToReplace.title || !productToReplace.description || !productToReplace.price || !productToReplace.thumbnail || !productToReplace.code || !productToReplace.stock || !productToReplace.category) {
@@ -35,7 +35,7 @@ router.put('/:pid', async (req, res) => {
     res.send({ result: "success", payload: result });
 })
 
-router.delete('/:pid', async (req, res) => {
+router.delete('/:pid', isAdmin, async (req, res) => {
     let { pid } = req.params
     const result = await productController.deleteProduct(pid);
     res.send({ result: "success", payload: result });

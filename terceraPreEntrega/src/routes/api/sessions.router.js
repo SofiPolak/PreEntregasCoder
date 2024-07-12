@@ -23,7 +23,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'faillog
     if (!req.user) return res.status(400).send({ status: "error", error: "Datos incompletos" })
     try {
         let role = "user";
-        if(req.user.email == process.env.ADMIN_EMAIL){
+        if (req.user.email == process.env.ADMIN_EMAIL) {
             role = "admin";
         }
         req.session.user = {
@@ -33,6 +33,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'faillog
             age: req.user.age,
             role
         };
+        console.log(req.headers.cookie);
         res.redirect('/products');
 
     } catch (err) {
@@ -51,21 +52,21 @@ router.post('/logout', (req, res) => {
     });
 });
 
-router.get("/github", passport.authenticate("github",{scope:["user:email"]}),async(req,res)=>{})
+router.get("/github", passport.authenticate("github", { scope: ["user:email"] }), async (req, res) => { })
 
 
-router.get("/githubcallback",passport.authenticate("github",{failureRedirect:"/login"}),async(req,res)=>{
+router.get("/githubcallback", passport.authenticate("github", { failureRedirect: "/login" }), async (req, res) => {
     let role = "user";
-        if(req.user.email == process.env.ADMIN_EMAIL){
-            role = "admin";
-        }
-        req.session.user = {
-            first_name: req.user.first_name,
-            last_name: req.user.last_name,
-            email: req.user.email,
-            age: req.user.age,
-            role
-        };
+    if (req.user.email == process.env.ADMIN_EMAIL) {
+        role = "admin";
+    }
+    req.session.user = {
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        email: req.user.email,
+        age: req.user.age,
+        role
+    };
     res.redirect("/products")
 })
 
