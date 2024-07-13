@@ -15,8 +15,6 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.post('/', isAdmin, async (req, res) => {
-    console.log(req.session.user)
-    console.log(req.user)
     let { title, description, price, thumbnail, code, stock, available, category } = req.body
     if (!title || !description || !price || !thumbnail || !code || !stock || !available || !category) {
         res.send({ status: "error", error: "Faltan parametros" })
