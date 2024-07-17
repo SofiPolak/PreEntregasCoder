@@ -36,10 +36,6 @@
 <h1>No hay productos para mostrar</h1>
 {{/if}}
 
-<div>
-    <button class="agregar-producto">Agregar producto</button>
-</div>
-
 <form action="/api/sessions/logout" method="POST">
     <button type="submit">Cerrar Sesión</button>
 </form>
@@ -74,39 +70,5 @@
 
     addToCart();
 
-
-    function addProduct() {
-
-        const button = document.querySelector('.agregar-producto');
-
-        button.addEventListener('click', async (event) => {
-            const product = {
-                title = "Producto agregado por boton",
-                description = "Descripcion de producto agregado por boton",
-                price = 150,
-                thumbnail = "Sin imagem",
-                code = "abcd1234",
-                stock = 140,
-                available = "true",
-                category = "CategoriaA"
-            }
-
-            try {
-                const response = await fetch(`/api/products/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(product)
-                });
-
-            } catch (error) {
-                console.log(error);
-            }
-        });
-    }
-
-
-    addProduct();
 
 </script>

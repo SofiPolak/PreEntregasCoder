@@ -33,7 +33,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'faillog
             age: req.user.age,
             role
         };
-        console.log(req.headers.cookie);
+        console.log(req.headers.cookie.replace("connect.sid=", ""));
         res.redirect('/products');
 
     } catch (err) {
