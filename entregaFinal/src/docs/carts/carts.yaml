@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+  title: API de Carritos
+  description: API para gestionar carritos de compra.
+  version: 1.0.0
+
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Lista de carritos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+              examples:
+                exampleCartList:
+                  summary: Lista de carritos de ejemplo
+                  value:
+                    - _id: "605c72efb7e8baf2d5678a1b"
+                      products:
+                        - productId: "12345"
+                          quantity: 2
+                        - productId: "67890"
+                          quantity: 1
+                    - _id: "705c72efb7e8baf2d5678b2c"
+                      products:
+                        - productId: "54321"
+                          quantity: 3
+
+    post:
+      summary: Crea un nuevo carrito
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cart"
+            examples:
+              exampleCartCreate:
+                summary: Carrito de ejemplo para creación
+                value:
+                  products:
+                    - productId: "12345"
+                      quantity: 2
+                    - productId: "67890"
+                      quantity: 1
+      responses:
+        "201":
+          description: Carrito creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "400":
+          description: Solicitud incorrecta
+        "500":
+          description: Error interno del servidor
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              examples:
+                exampleCart:
+                  summary: Carrito de ejemplo
+                  value:
+                    _id: "605c72efb7e8baf2d5678a1b"
+                    products:
+                      - productId: "12345"
+                        quantity: 2
+                      - productId: "67890"
+                        quantity: 1
+        "404":
+          description: Carrito no encontrado
+        "500":
+          description: Error interno del servidor
+
+    put:
+      summary: Actualiza un carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cart"
+            examples:
+              exampleCartUpdate:
+                summary: Carrito de ejemplo para actualización
+                value:
+                  products:
+                    - productId: "12345"
+                      quantity: 3
+                    - productId: "67890"
+                      quantity: 2
+      responses:
+        "200":
+          description: Carrito actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "400":
+          description: Solicitud incorrecta
+        "404":
+          description: Carrito no encontrado
+        "500":
+          description: Error interno del servidor
+
+    delete:
+      summary: Elimina un carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Carrito eliminado exitosamente
+        "404":
+          description: Carrito no encontrado
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID del carrito
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartProduct"
+      required:
+        - products
+
+    CartProduct:
+      type: object
+      properties:
+        productId:
+          type: string
+          description: ID del producto
+        quantity:
+          type: integer
+          description: Cantidad del producto en el carrito
+      required:
+        - productId
+        - quantity

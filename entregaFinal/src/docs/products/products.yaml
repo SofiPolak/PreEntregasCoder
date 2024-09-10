@@ -1,0 +1,206 @@
+openapi: 3.0.1
+info:
+  title: API de Productos
+  description: API para gestionar productos.
+  version: 1.0.0
+
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+              examples:
+                exampleProductList:
+                  summary: Lista de productos de ejemplo
+                  value:
+                    - _id: "605c72efb7e8baf2d5678a1b"
+                      title: "Example Product"
+                      description: "This is an example product."
+                      price: 29.99
+                      thumbnail: "http://example.com/thumbnail.jpg"
+                      code: "EX123"
+                      stock: 100
+                      available: true
+                      category: "Electronics"
+        "500":
+          description: Error interno del servidor
+
+    post:
+      summary: Crea un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+            examples:
+              exampleProductCreate:
+                summary: Producto de ejemplo para creación
+                value:
+                  title: "New Product"
+                  description: "This is a newly created product."
+                  price: 49.99
+                  thumbnail: "http://example.com/new-thumbnail.jpg"
+                  code: "NEW456"
+                  stock: 200
+                  available: true
+                  category: "Home Goods"
+      responses:
+        "201":
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Solicitud incorrecta
+        "500":
+          description: Error interno del servidor
+
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+              examples:
+                exampleProduct:
+                  summary: Producto de ejemplo
+                  value:
+                    _id: "605c72efb7e8baf2d5678a1b"
+                    title: "Example Product"
+                    description: "This is an example product."
+                    price: 29.99
+                    thumbnail: "http://example.com/thumbnail.jpg"
+                    code: "EX123"
+                    stock: 100
+                    available: true
+                    category: "Electronics"
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error interno del servidor
+
+    put:
+      summary: Actualiza un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+            examples:
+              exampleProductUpdate:
+                summary: Producto de ejemplo para actualización
+                value:
+                  title: "Updated Product"
+                  description: "Updated description of the product."
+                  price: 39.99
+                  thumbnail: "http://example.com/updated-thumbnail.jpg"
+                  code: "UPD456"
+                  stock: 50
+                  available: true
+                  category: "Home Goods"
+      responses:
+        "200":
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Solicitud incorrecta
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error interno del servidor
+
+    delete:
+      summary: Elimina un producto por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Producto eliminado exitosamente
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Título del producto
+        description:
+          type: string
+          description: Descripción del producto
+        price:
+          type: number
+          format: float
+          description: Precio del producto
+        thumbnail:
+          type: string
+          description: URL de la imagen en miniatura del producto
+        code:
+          type: string
+          description: Código del producto
+        stock:
+          type: integer
+          description: Cantidad en stock del producto
+        available:
+          type: boolean
+          description: Indica si el producto está disponible
+        category:
+          type: string
+          description: Categoría del producto
+      required:
+        - title
+        - price
+        - stock
+        - available
+        - category
