@@ -1,8 +1,9 @@
 import express from 'express'
 import productModel from '../dao/models/product.model.js';
 import cartModel from '../dao/models/cart.model.js';
-import { isAuthenticated, isNotAuthenticated } from '../middlewares/auth.js';
+import { isAuthenticated, isNotAuthenticated, isAdmin } from '../middlewares/auth.js';
 import UserDTO from "../dao/DTOs/user.dto.js";
+import userModel from '../dao/models/users.model.js'
 const router = express.Router()
 
 router.get('/products', isAuthenticated, async (req, res) => {
@@ -44,6 +45,18 @@ router.get('/current', isAuthenticated, async (req, res) => {
 
 router.get('/changePass', (req, res) => {
     res.render('changePass');
+});
+
+router.get('/users', isAdmin, async (req, res) => {
+    const users = await userModel.find();
+    const plainUsers = users.map(user => ({
+        id: user._id,
+        nombre: user.first_name,
+        apellido: user.last_name,
+        email: user.email,
+        rol: user.role
+    }));
+    res.render('users', { users: plainUsers });
 });
 
 export default router

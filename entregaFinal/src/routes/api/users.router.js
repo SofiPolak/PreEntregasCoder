@@ -63,6 +63,17 @@ router.put('/admin/:uid', async (req, res) => {
     res.send({ result: "success", payload: result });
 })
 
+router.post('/admin/:uid', async (req, res) => {
+    let { uid } = req.params
+    let { role } = req.body
+    /*const user = await userService.findById(uid);
+    if (user.documents.length < 3 && role === 'premium') {
+        return res.status(400).json({ message: 'User must have at least 3 documents to be upgraded to premium.' });
+    }*/
+    const result = await userService.updateOne({ _id: uid }, { role: role })
+    res.send({ result: "success", payload: result });
+})
+
 router.post('/:uid/documents', upload.array('documents'), async (req, res) => {
     const userId = req.params.uid;
     const files = req.files;
@@ -95,5 +106,53 @@ router.post('/:uid/documents', upload.array('documents'), async (req, res) => {
         res.status(500).json({ message: 'Server error.', error });
     }
 });
+
+router.get('/', async (req, res) => {
+    const users = await userService.find();
+
+    const result = users.map(user => ({
+        nombre: user.first_name,
+        apellido: user.last_name,
+        email: user.email,
+        rol: user.role
+    }));
+    
+    res.send({ result: "success", payload: result });
+})
+
+router.delete('/', async (req, res) => {
+    const users = await userService.find();
+
+    const now = new Date();
+    const cutoffDate = new Date(now.setDate(now.getDate() - 2));
+    
+    const inactiveUsers = users.filter(user => new Date(user.last_connection) < cutoffDate);
+
+    for (const user of inactiveUsers) {
+        await transport.sendMail({
+            from: "sofiadanielapolak@gmail.com",
+            to: user.email,
+            subject: "Su cuenta ha sido eliminada por inactividad",
+            html: `<div>
+                <h2>Su cuenta en el ecommerce ha sido eliminada por inactividad.</h2>
+                </div>`
+        });
+    }
+    
+    if (inactiveUsers.length > 0) {
+        await Promise.all(inactiveUsers.map(user => userService.deleteOne({ _id: user.id })));
+    }
+    
+    res.send({ result: "success", message: `${inactiveUsers.length} usuarios inactivos eliminados.` });
+
+})
+
+router.post('/delete/:uid', async (req, res) => {
+
+    const userId = req.params.uid;
+    const result = await userService.deleteOne({ _id: userId });
+    res.send({ result: "success", payload: result });
+
+})
 
 export default router;

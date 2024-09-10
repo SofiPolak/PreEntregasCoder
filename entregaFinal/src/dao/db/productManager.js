@@ -1,4 +1,15 @@
 import productModel from "../models/product.model.js";
+import userModel from '../models/users.model.js'
+import nodemailer from "nodemailer";
+
+const transport = nodemailer.createTransport({
+    service: "gmail",
+    port: 587,
+    auth: {
+        user: "sofiadanielapolak@gmail.com",
+        pass: "anwz yeiy dana cvso"
+    },
+});
 
 class ProductManager {
 
@@ -75,6 +86,24 @@ class ProductManager {
                     return result
                 }
             }
+
+            if(product.owner != null){
+                let user = await userModel.findOne({email: product.owner})
+
+                if(user != null){
+                    if(user.role == "premium"){
+                        await transport.sendMail({
+                            from: "sofiadanielapolak@gmail.com",
+                            to: user.email,
+                            subject: `Se elimino el producto ${product.title}`,
+                            html: `<div>
+                                <h2>Se elimino un producto suyo.</h2>
+                                </div>`
+                        });
+                    }
+                }
+            }
+
             result = await productModel.deleteOne({ _id: id });
             return result;
         } catch (error) {
