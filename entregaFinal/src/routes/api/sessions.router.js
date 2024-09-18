@@ -38,7 +38,8 @@ router.post('/login', passport.authenticate('login', { failureRedirect: 'faillog
             last_name: req.user.last_name,
             email: req.user.email,
             age: req.user.age,
-            role
+            role,
+            cart: req.user.cart
         };
         //req.logger.info("Se muestra la cookie");
         console.log(req.headers.cookie.replace("connect.sid=", ""));
@@ -78,7 +79,8 @@ router.get("/githubcallback", passport.authenticate("github", { failureRedirect:
         last_name: req.user.last_name,
         email: req.user.email,
         age: req.user.age,
-        role
+        role,
+        cart: req.user.cart
     };
     //req.logger.info("Se inicia sesion y se redirige a productos");
     res.redirect("/products")

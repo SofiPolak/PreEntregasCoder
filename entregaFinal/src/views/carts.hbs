@@ -7,11 +7,36 @@
 </head>
 <body>
     <h1>Productos del carrito</h1>
-     {{#each products}}
+    {{#each products}}
     <div>
         <p>Title: {{this.product.title}} &nbsp; Description: {{this.product.description}} &nbsp; Price: {{this.product.price}} &nbsp; Quantity: {{this.quantity}}</p>
     </div>
     <br/>
     {{/each}}
+
+    <button id="purchaseButton">Finalizar Compra</button>
+
+    <script>
+        document.getElementById('purchaseButton').addEventListener('click', async () => {
+            const cartId = '{{cid}}';
+            try {
+                const response = await fetch(`/api/carts/${cartId}/purchase`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Compra realizada con éxito:', data);
+                } else {
+                    console.error('Error en la compra:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error al hacer la solicitud:', error);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -26,7 +26,7 @@ router.get('/carts/:cid', async (req, res) => {
     let { cid } = req.params;
     let result = await cartModel.findOne({ _id: cid }).populate("products.product").lean();
     result = result.products;
-    res.render('carts', { products: result });
+    res.render('carts', { products: result, cid });
 })
 
 router.get('/login', isNotAuthenticated, (req, res) => {

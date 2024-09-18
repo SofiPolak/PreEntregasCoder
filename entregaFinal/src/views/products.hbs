@@ -1,10 +1,6 @@
 <div>
     <h2>Hola, {{user.first_name}} {{user.last_name}}, tu rol es {{user.role}}</h2>
-</div>
-<div>
-    <h2>Mi carrito tiene el ID</h2>
-    <label for="id"> Id</label>
-    <input type="text" name="carritoId" id="carritoId">
+    <input type="hidden" id="cartId" value="{{user.cart}}" />
 </div>
 <h2>Productos</h2>
 {{#if result.isValid}}
@@ -36,6 +32,10 @@
 <h1>No hay productos para mostrar</h1>
 {{/if}}
 
+<form action="/carts/{{user.cart}}" method="GET">
+    <button type="submit">Ver Carrito</button>
+</a>
+
 <form action="/api/sessions/logout" method="POST">
     <button type="submit">Cerrar Sesión</button>
 </form>
@@ -47,10 +47,8 @@
     function addToCart() {
         document.querySelectorAll('.agregar-carrito').forEach(button => {
             button.addEventListener('click', async (event) => {
-                //const productId = button.getAttribute('data-product-id');
-                //const cartId = document.getElementById('carritoId').value;
-                const productId = "664e767da1604d347baf79d3";
-                const cartId = "666dd083aaa002dd8d72040c";
+                const productId = button.getAttribute('data-product-id');
+                const cartId = document.getElementById('cartId').value;
 
                 try {
                     const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
