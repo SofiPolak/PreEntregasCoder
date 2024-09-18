@@ -6,11 +6,11 @@ Este repositorio contiene las tres pre entregas que se realizaron durante el cur
 
 1. [Información general](#Información-general)
 2. [Tecnologías](#Tecnologías)
-3. [Installación](#Installación)
+3. [Installación](#Instalación)
 
 ### Información general
 
-El proyecto consiste en un ecommerce donde los usuarios tienen un carrito en el cual van almacenando productos.
+El proyecto consiste en un ecommerce donde los usuarios tienen un carrito en el cual van almacenando productos para luego finalizar su compra.
 
 ## Tecnologías
 
@@ -18,7 +18,7 @@ Para este proyecto se utilizó Node.js
 
 - [Node.js](https://nodejs.org/en)
 
-## Installación
+## Instalación
 
 $ git clone https://github.com/SofiPolak/PreEntregasCoder
 $ npm install
