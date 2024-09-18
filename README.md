@@ -5,8 +5,8 @@ Este repositorio contiene las tres pre entregas que se realizaron durante el cur
 ## Contenido
 
 1. [Información general](#Información-general)
-2. [Technologies](#Tecnologías)
-3. [Installation](#Installación)
+2. [Tecnologías](#Tecnologías)
+3. [Installación](#Installación)
 
 ### Información general
 
