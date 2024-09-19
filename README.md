@@ -6,9 +6,10 @@ Este repositorio contiene las tres pre entregas que se realizaron durante el cur
 
 1. [Información general](#Información-general)
 2. [Tecnologías](#Tecnologías)
-3. [Installación](#Instalación)
+3. [Instalación](#Instalación)
+4. [Deploy](#Deploy)
 
-### Información general
+## Información general
 
 El proyecto consiste en un ecommerce donde los usuarios tienen un carrito en el cual van almacenando productos para luego finalizar su compra.
 
@@ -22,3 +23,7 @@ Para este proyecto se utilizó Node.js
 
 $ git clone https://github.com/SofiPolak/PreEntregasCoder
 $ npm install
+
+## Deploy
+
+https://preentregascoder-production.up.railway.app/login
