@@ -46,7 +46,8 @@ const initializePassport = () => {
         clientSecret: "2eade64c4c72cd3cdf2fe603e279a3168bf6294a",
         //clientID: process.env.clientID,
         //clientSecret: process.env.clientSecret,
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback"
+        //callbackURL: "http://localhost:8080/api/sessions/githubcallback"
+        callbackURL: "https://preentregascoder-production.up.railway.app/api/sessions/githubcallback"
     }, async (accessToken, refreshToken, profile, done) => {
         try {
             console.log(profile)
