@@ -15,8 +15,10 @@ router.get('/products', isAuthenticated, async (req, res) => {
     //esto hace que a Handlebars llegue el documento como plain object y no como Document.
 
     let result = await productModel.paginate({}, { page, limit: 10, lean: true });
-    result.prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}` : '';
-    result.nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}` : '';
+    //result.prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}` : '';
+    //result.nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}` : '';
+    result.prevLink = result.hasPrevPage ? `https://preentregascoder-production.up.railway.app/products?page=${result.prevPage}` : '';
+    result.nextLink = result.hasNextPage ? `https://preentregascoder-production.up.railway.app/products?page=${result.nextPage}` : '';
     result.isValid = !(page <= 0 || page > result.totalPages)
 
     res.render('products', { user: req.session.user, result })
